@@ -10,11 +10,11 @@
        💎 Modern Glass Look (Mac/iOS)
        --------------------------- */
     :root {
-      --bg: #2ab5c7;
-      --glass: rgba(2, 3, 3, 0.873);
-      --accent: #424444;
-      --text: #223247;
-      --card: rgba(131, 77, 77, 0.08);
+      --bg: #161818;
+      --glass: rgba(71, 121, 121, 0.85);
+      --accent: #222;
+      --text: #324e73;
+      --card: rgba(255, 255, 255, 0.12);
       --blur: blur(16px);
     }
     * { box-sizing: border-box; }
@@ -31,14 +31,16 @@
        --------------------------- */
     header {
       position: fixed;
-      top: 0; left: 0; width: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
       backdrop-filter: var(--blur);
       background: var(--glass);
       color: var(--accent);
       text-align: center;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 600;
-      padding: 12px;
+      padding: 14px;
       z-index: 10;
     }
 
@@ -46,11 +48,11 @@
        📸 Gallery Grid
        --------------------------- */
     main {
-      padding-top: 80px;
+      padding-top: 90px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 16px;
-      padding-bottom: 80px;
+      gap: 18px;
+      padding-bottom: 100px;
     }
 
     .card {
@@ -58,12 +60,13 @@
       border-radius: 16px;
       overflow: hidden;
       position: relative;
-      transition: transform .3s;
+      transition: transform 0.3s ease;
     }
     .card:hover { transform: scale(1.03); }
+
     .card img {
       width: 100%;
-      height: 220px;
+      height: 230px;
       object-fit: cover;
       cursor: pointer;
       display: block;
@@ -77,32 +80,27 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: .9rem;
-      background: rgba(108, 52, 52, 0.03);
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.05);
     }
-    .btn {
-      cursor: pointer;
-      user-select: none;
-    }
+    .btn { cursor: pointer; user-select: none; }
     .btn:hover { opacity: 0.8; }
-    .count { margin-left: 4px; color: #94a3b8; }
+    .count { margin-left: 4px; color: #64748b; }
 
     .comment-section {
       display: none;
       padding: 10px;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       max-height: 250px;
       overflow-y: auto;
     }
     .comment {
-      display: flex;
-      align-items: center;
       margin-bottom: 6px;
+      font-size: 0.85rem;
     }
-    .comment span { font-size: .85rem; }
 
     /* ---------------------------
-       🖼️ Lightbox (Fullscreen View)
+       🖼️ Lightbox
        --------------------------- */
     #lightbox {
       position: fixed;
@@ -117,10 +115,13 @@
       max-width: 90%;
       max-height: 90%;
       border-radius: 12px;
-      box-shadow: 0 0 25px rgb(66, 52, 52);
-      animation: zoom .5s ease;
+      box-shadow: 0 0 25px rgba(0,0,0,0.8);
+      animation: zoom 0.4s ease;
     }
-    @keyframes zoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes zoom {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
 
     /* ---------------------------
        🔻 Footer
@@ -134,8 +135,8 @@
       backdrop-filter: var(--blur);
       background: var(--glass);
       padding: 10px;
-      font-size: .9rem;
-      color: #383b3e;
+      font-size: 0.9rem;
+      color: #333;
     }
 
     a { color: var(--accent); text-decoration: none; }
@@ -144,12 +145,17 @@
 </head>
 <body>
 
-  <!-- Fixed Header -->
-  <header>👨🏼‍💻 Aryan Singh —  Glass Gallery</header>
-  <header> Created by <a href="https://github.com/aryan-singh-0121" target="_blank">Aryan Singh</a> •
-    Preparing for <a href="https://aryan-singh-0121.github.io/test-serise/" target="_blank">ECE 279 medterm exam</a>
+  <!-- Header -->
+  <header>
+    👨🏼‍💻 Aryan Singh — CODETANTRA Glass Gallery
+    <br>
+    <small>
+      <a href="https://github.com/aryan-singh-0121" target="_blank">GitHub</a> •
+      <a href="https://aryan-singh-0121.github.io/test-serise/" target="_blank">ECE 279 Midterm Prep</a>
+    </small>
   </header>
-  <!-- Image Gallery -->
+
+  <!-- Gallery -->
   <main id="gallery"></main>
 
   <!-- Lightbox -->
@@ -158,22 +164,22 @@
   <!-- Footer -->
   <footer>
     Created by <a href="https://github.com/aryan-singh-0121" target="_blank">Aryan Singh</a> •
-    Preparing for <a href="https://aryan-singh-0121.github.io/test-serise/" target="_blank">ECE 279 medterm exam</a>
+    Preparing for <a href="https://aryan-singh-0121.github.io/test-serise/" target="_blank">ECE 279 Midterm Exam</a>
   </footer>
 
   <script>
-    /* ========================================
-       ⚙️ CONFIG
-       ======================================== */
-    const startNum = 15564;     // first image number
-    const total = 120;          // total images
-    const folder = "images";    // folder where images are stored
-    const ext = "jpg";          // image extension
+    // ========================================
+    // ⚙️ CONFIG
+    // ========================================
+    const startNum = 1556; // your image series start
+    const total = 120;     // total images
+    const ext = "JPG";     // your uploaded images extension (uppercase)
     const gallery = document.getElementById("gallery");
 
-    /* ========================================
-       😂 Funny Developer Comments
-       ======================================== */
+    // Base path for your repo images
+    const basePath = "https://raw.githubusercontent.com/aryan-singh-0121/Photo-gallery/main/";
+
+    // Funny developer comments 😅
     const funnyComments = [
       "Bhai ye line mujhe confuse kar rahi hai 😵‍💫",
       "Syntax ne phir dhoka de diya 😂",
@@ -200,7 +206,6 @@
       "Bro ye code dekh ke debugger ne resign kar diya 😭",
       "Ye bug romantic hai, baar-baar milta hai 😭",
       "Logic samajh me nahi aaya but respect 🙏",
-      "Genius + madness combo 😜",
       "Nice flow bro 🔥",
       "Line 23 — bhai yahan kuch gadbad hai 🧐",
       "Perfect syntax, wrong universe 🤣",
@@ -208,49 +213,45 @@
       "Code likhne gaya tha, novel likh diya 😂"
     ];
 
-    /* ========================================
-       🧩 CREATE EACH IMAGE CARD
-       ======================================== */
+    // ========================================
+    // 🧩 CREATE GALLERY
+    // ========================================
     for (let i = 0; i < total; i++) {
       const num = startNum + i;
-      const filename = `${folder}/IMG_${num}.${ext}`;
+      const filename = `IMG_${num} .${ext}`; // includes space before .JPG
+      const imgURL = `${basePath}${filename}`;
+
       const card = document.createElement("div");
       card.className = "card";
 
-      // 🖼️ Image itself
       const img = document.createElement("img");
-      img.src = filename;
+      img.src = imgURL;
       img.alt = `IMG_${num}`;
-      img.onclick = () => openLightbox(filename);
+      img.onclick = () => openLightbox(imgURL);
       card.appendChild(img);
 
-      // ❤️ Action bar
       const actions = document.createElement("div");
       actions.className = "actions";
 
       const likes = Math.floor(Math.random() * 900) + 100;
       const dislikes = Math.floor(Math.random() * 100);
-      const btns = `
+      actions.innerHTML = `
         <div>
           <span class="btn">❤️ <span class="count">${likes}</span></span>
           <span class="btn">👎 <span class="count">${dislikes}</span></span>
           <span class="btn comment-btn">💬 Comments</span>
-        </div>
-      `;
-      actions.innerHTML = btns;
+        </div>`;
       card.appendChild(actions);
 
-      // 💬 Hidden comment section
       const cSec = document.createElement("div");
       cSec.className = "comment-section";
 
-      // Comment toggle — random 15–40 funny ones
       actions.querySelector(".comment-btn").onclick = () => {
         if (cSec.style.display === "block") {
           cSec.style.display = "none";
         } else {
-          cSec.innerHTML = ""; // clear old
-          const count = Math.floor(Math.random() * 25) + 15;
+          cSec.innerHTML = "";
+          const count = Math.floor(Math.random() * 25) + 10;
           const shuffled = funnyComments.sort(() => 0.5 - Math.random());
           shuffled.slice(0, count).forEach(text => {
             const c = document.createElement("div");
@@ -266,9 +267,9 @@
       gallery.appendChild(card);
     }
 
-    /* ========================================
-       🔍 LIGHTBOX FUNCTION
-       ======================================== */
+    // ========================================
+    // 🔍 LIGHTBOX FUNCTION
+    // ========================================
     const lightbox = document.getElementById("lightbox");
     const lbImg = document.getElementById("lightbox-img");
 
