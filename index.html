@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aryan Singh — CODETANTRA Gallery</title>
+
+  <style>
+    /* ---------------------------
+       💎 Modern Glass Look (Mac/iOS)
+       --------------------------- */
+    :root {
+      --bg: #2ab5c7;
+      --glass: rgba(2, 3, 3, 0.873);
+      --accent: #424444;
+      --text: #223247;
+      --card: rgba(131, 77, 77, 0.08);
+      --blur: blur(16px);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ---------------------------
+       🔝 Fixed Glass Header
+       --------------------------- */
+    header {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      backdrop-filter: var(--blur);
+      background: var(--glass);
+      color: var(--accent);
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      padding: 12px;
+      z-index: 10;
+    }
+
+    /* ---------------------------
+       📸 Gallery Grid
+       --------------------------- */
+    main {
+      padding-top: 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      padding-bottom: 80px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      transition: transform .3s;
+    }
+    .card:hover { transform: scale(1.03); }
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      cursor: pointer;
+      display: block;
+    }
+
+    /* ---------------------------
+       ❤️ Like/Comment Section
+       --------------------------- */
+    .actions {
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .9rem;
+      background: rgba(108, 52, 52, 0.03);
+    }
+    .btn {
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn:hover { opacity: 0.8; }
+    .count { margin-left: 4px; color: #94a3b8; }
+
+    .comment-section {
+      display: none;
+      padding: 10px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    .comment {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .comment span { font-size: .85rem; }
+
+    /* ---------------------------
+       🖼️ Lightbox (Fullscreen View)
+       --------------------------- */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+    }
+    #lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgb(66, 52, 52);
+      animation: zoom .5s ease;
+    }
+    @keyframes zoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* ---------------------------
+       🔻 Footer
+       --------------------------- */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: var(--blur);
+      background: var(--glass);
+      padding: 10px;
+      font-size: .9rem;
+      color: #383b3e;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed Header -->
+  <header>👨🏼‍💻 Aryan Singh —  Glass Gallery</header>
+  <header> Created by <a href="https://github.com/aryan-singh-0121" target="_blank">Aryan Singh</a> •
+    Preparing for <a href="https://aryan-singh-0121.github.io/test-serise/" target="_blank">ECE 279 medterm exam</a>
+  </header>
+  <!-- Image Gallery -->
+  <main id="gallery"></main>
+
+  <!-- Lightbox -->
+  <div id="lightbox"><img id="lightbox-img" src=""></div>
+
+  <!-- Footer -->
+  <footer>
+    Created by <a href="https://github.com/aryan-singh-0121" target="_blank">Aryan Singh</a> •
+    Preparing for <a href="https://aryan-singh-0121.github.io/test-serise/" target="_blank">ECE 279 medterm exam</a>
+  </footer>
+
+  <script>
+    /* ========================================
+       ⚙️ CONFIG
+       ======================================== */
+    const startNum = 15564;     // first image number
+    const total = 120;          // total images
+    const folder = "images";    // folder where images are stored
+    const ext = "jpg";          // image extension
+    const gallery = document.getElementById("gallery");
+
+    /* ========================================
+       😂 Funny Developer Comments
+       ======================================== */
+    const funnyComments = [
+      "Bhai ye line mujhe confuse kar rahi hai 😵‍💫",
+      "Syntax ne phir dhoka de diya 😂",
+      "Output aa raha hai par dil nahi maan raha 😭",
+      "Bro semicolon gayab hai, search party bhej! 🕵️‍♂️",
+      "Compilation error ne zindagi kharab kar di 😭",
+      "Console bhi thak gaya hoga tere print se 😂",
+      "Infinite loop ne mujhe infinite sochne pe majboor kar diya 😭",
+      "Code dekh ke RAM ro rahi hai 😭",
+      "Bro ye code NASA me bhej do 😎",
+      "Ek extra bracket aur duniya badal gayi 😭",
+      "Chal gaya! miracle ho gaya 🙏",
+      "Bro debugging karne gaya tha, depression mil gaya 😭",
+      "Code chalu, dimag band 😵‍💫",
+      "Logic galat nahi, duniya galat hai 😤",
+      "Output dekh ke laga dream true ho gaya 🥲",
+      "Perfect indentation 😍",
+      "Bro tu genius hai ya alien 👽",
+      "Output mil gaya, reason nahi 😅",
+      "Clean code vibes ✨",
+      "Nice loop structure 🔁",
+      "Error itna pyara tha, delete nahi kiya 😭",
+      "Compiler ne bhi haar maan li 🤣",
+      "Bro ye code dekh ke debugger ne resign kar diya 😭",
+      "Ye bug romantic hai, baar-baar milta hai 😭",
+      "Logic samajh me nahi aaya but respect 🙏",
+      "Genius + madness combo 😜",
+      "Nice flow bro 🔥",
+      "Line 23 — bhai yahan kuch gadbad hai 🧐",
+      "Perfect syntax, wrong universe 🤣",
+      "Chhoti bug, bada dukh 😩",
+      "Code likhne gaya tha, novel likh diya 😂"
+    ];
+
+    /* ========================================
+       🧩 CREATE EACH IMAGE CARD
+       ======================================== */
+    for (let i = 0; i < total; i++) {
+      const num = startNum + i;
+      const filename = `${folder}/IMG_${num}.${ext}`;
+      const card = document.createElement("div");
+      card.className = "card";
+
+      // 🖼️ Image itself
+      const img = document.createElement("img");
+      img.src = filename;
+      img.alt = `IMG_${num}`;
+      img.onclick = () => openLightbox(filename);
+      card.appendChild(img);
+
+      // ❤️ Action bar
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const likes = Math.floor(Math.random() * 900) + 100;
+      const dislikes = Math.floor(Math.random() * 100);
+      const btns = `
+        <div>
+          <span class="btn">❤️ <span class="count">${likes}</span></span>
+          <span class="btn">👎 <span class="count">${dislikes}</span></span>
+          <span class="btn comment-btn">💬 Comments</span>
+        </div>
+      `;
+      actions.innerHTML = btns;
+      card.appendChild(actions);
+
+      // 💬 Hidden comment section
+      const cSec = document.createElement("div");
+      cSec.className = "comment-section";
+
+      // Comment toggle — random 15–40 funny ones
+      actions.querySelector(".comment-btn").onclick = () => {
+        if (cSec.style.display === "block") {
+          cSec.style.display = "none";
+        } else {
+          cSec.innerHTML = ""; // clear old
+          const count = Math.floor(Math.random() * 25) + 15;
+          const shuffled = funnyComments.sort(() => 0.5 - Math.random());
+          shuffled.slice(0, count).forEach(text => {
+            const c = document.createElement("div");
+            c.className = "comment";
+            c.innerHTML = `<span>💬 ${text}</span>`;
+            cSec.appendChild(c);
+          });
+          cSec.style.display = "block";
+        }
+      };
+
+      card.appendChild(cSec);
+      gallery.appendChild(card);
+    }
+
+    /* ========================================
+       🔍 LIGHTBOX FUNCTION
+       ======================================== */
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lightbox-img");
+
+    function openLightbox(src) {
+      lbImg.src = src;
+      lightbox.style.display = "flex";
+    }
+    lightbox.onclick = () => (lightbox.style.display = "none");
+  </script>
+</body>
+</html>
